@@ -1,0 +1,76 @@
+/* Estilos de apoio às animações com Anime.js (js/animations.js).
+   Tudo aqui é aditivo: sem a biblioteca, o site continua legível e completo. */
+
+/* ---- Estado inicial (evita "flash" antes do Anime.js assumir) ---- */
+.anime-pending [data-hero],
+.anime-pending .wa-float,
+.anime-pending .site-header__inner { opacity: 0; }
+
+/* ---- Conflitos com regras de hover/transition antigas ---- */
+.anime-ready .reveal { transition: none; }
+.anime-ready .btn { transition: background-color .2s, color .2s, border-color .2s; }
+.anime-ready .btn:hover,
+.anime-ready .btn:active { transform: none; }
+.anime-ready .photo img { transition: none; }
+.anime-ready .gallery__item:hover img { transform: none; }
+.anime-ready .service { transition: border-color .25s; }
+.anime-ready .service:hover { transform: none; }
+.anime-ready .wa-float { transition: none; }
+.anime-ready .wa-float:hover { transform: none; }
+
+/* ---- Títulos divididos em palavras (máscara) ---- */
+.split-title [style*="overflow"] { padding: .14em .04em; margin: -.14em -.04em; }
+
+/* ---- Hero ---- */
+.hero { overflow: clip; }
+.hero__veil { position: absolute; inset: 0; z-index: -1; background: var(--bg); opacity: 0; pointer-events: none; }
+.hero__media { will-change: transform; }
+.hero__cue { position: absolute; right: max(1.25rem, calc((100vw - var(--container)) / 2)); bottom: 6rem; display: flex; flex-direction: column; align-items: center; gap: .7rem; font-size: .7rem; letter-spacing: .25em; text-transform: uppercase; color: #d2d2ce; writing-mode: vertical-rl; }
+.hero__cue i { position: relative; width: 1px; height: 64px; background: rgba(255,255,255,.25); overflow: hidden; }
+.hero__cue i::after { content: ""; position: absolute; left: 0; top: 0; width: 1px; height: 22px; background: var(--accent); transform: translateY(var(--cue-y, -22px)); }
+
+/* ---- Faixa de transição ---- */
+.marquee { overflow: hidden; background: var(--bg); border-block: 1px solid var(--line); padding-block: 1.2rem; }
+.marquee__track { display: flex; align-items: center; gap: 3rem; width: max-content; will-change: transform; }
+.marquee__track span { display: inline-flex; align-items: center; gap: 3rem; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: clamp(2.6rem, 7vw, 5.5rem); line-height: 1; white-space: nowrap; color: transparent; -webkit-text-stroke: 1.5px rgba(244,244,241,.45); }
+.marquee__track span:nth-child(4n+1) { color: var(--accent); -webkit-text-stroke: 0; }
+.marquee__track span::after { content: "/"; color: var(--accent); -webkit-text-stroke: 0; }
+
+/* ---- Linhas desenhadas por variável CSS (--line animada pelo Anime.js) ---- */
+.feature { position: relative; border-top: 0; }
+.feature::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--line); transform-origin: left center; transform: scaleX(var(--line-p, 1)); }
+.feature::after { content: ""; position: absolute; left: 0; top: 0; height: 2px; width: 3.5rem; background: var(--accent); transform-origin: left center; transform: scaleX(var(--line-p, 1)); }
+.plans__steps { position: relative; }
+.plans__steps::before { content: ""; position: absolute; left: 2.6rem; top: 2rem; bottom: 2rem; width: 2px; background: var(--accent); opacity: .35; transform-origin: top center; transform: scaleY(var(--line-p, 1)); }
+.plans__steps li { position: relative; }
+
+/* ---- Diferenciais: composição de profundidade ---- */
+.story { position: relative; overflow: clip; }
+.story__numerals { display: none; }
+.deco-bolt { position: absolute; right: -4%; top: 6%; width: min(46vw, 560px); height: min(46vw, 560px); color: var(--accent); fill: currentColor; opacity: .05; pointer-events: none; will-change: transform; }
+.features { position: relative; }
+
+@media (min-width: 1024px) and (min-height: 720px) {
+  .story-on { padding-block: 0; }
+  .story-on .story__track { height: 300vh; }
+  .story-on .story__stage { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; padding-top: var(--header-h); overflow: clip; }
+  .story-on .story__stage > .container { position: relative; z-index: 1; }
+  .story-on .section__head { margin-bottom: 2rem; }
+  .story-on .section__title { margin-bottom: 0; }
+  .story-on .story__body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: var(--space-5); align-items: center; }
+  .story-on .story__numerals { display: block; position: relative; height: clamp(9rem, 34vh, 18rem); }
+  .story-on .story__numerals span { position: absolute; inset: 0; display: flex; align-items: center; font-family: var(--font-display); font-weight: 800; font-size: clamp(9rem, 30vh, 19rem); line-height: .8; color: transparent; -webkit-text-stroke: 2px var(--accent); }
+  .story-on .features { grid-template-columns: minmax(0, 1fr); gap: 0; padding-left: 1.6rem; }
+  .story-on .features::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--line); }
+  .story-on .features::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--accent); transform-origin: top center; transform: scaleY(var(--p, 0)); }
+  .story-on .feature { padding: 1rem 0; }
+  .story-on .feature::before, .story-on .feature::after { display: none; }
+  .story-on .feature__num { display: none; }
+  .story-on .feature h3 { font-size: 1.9rem; margin-bottom: .35rem; }
+}
+
+/* ---- Botões: seta e anel de atenção ---- */
+.btn .icon { will-change: transform; }
+
+/* ---- Segurança: deslocamentos de entrada (translateX) nunca geram rolagem horizontal ---- */
+.section, .site-footer { overflow-x: clip; }
